@@ -1,12 +1,31 @@
-<script setup lang="ts">
-    import { ref, reactive } from 'vue';
-    import { db } from './data/guitarras.ts';
-    const state = reactive({
-        guitarras: db
-    })
+<script setup lang="ts"> 
+import { ref, reactive, onMounted } from 'vue';
+import { db } from './data/guitarras.ts';
 
-    console.log(state.guitarras)
+// Interfaz
+interface Guitarra {
+    id: number;
+    nombre: string;
+    imagen: string;
+    descripcion: string;
+    precio: number;
+}
+
+// Tipos de las variables.
+const guitarras = ref<Guitarra[]>([]);
+
+const state = reactive<{
+    guitarras: Guitarra[];
+}>({
+    guitarras: [],
+});
+
+onMounted(() => {
+    guitarras.value = db as unknown as Guitarra[];
+    state.guitarras = db as unknown as Guitarra[];
+});
 </script>
+
 
 <template>
     <header class="py-5 header">
